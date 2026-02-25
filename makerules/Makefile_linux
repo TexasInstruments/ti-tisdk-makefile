@@ -10,6 +10,7 @@ linux: linux-dtbs u-boot
 	
 	# Build FitImage
 	cd $(LINUXKERNEL_INSTALL_DIR) ; cp arch/arm64/boot/Image.gz ./linux.bin ; cd ..
+	cp $(LINUXKERNEL_INSTALL_DIR)/arch/arm64/boot/dts/ti/*.dtb* $(LINUXKERNEL_INSTALL_DIR)/
 	cp $(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/fitImage-its-$(YOCTO_MACHINE) $(LINUXKERNEL_INSTALL_DIR)
 	mkimage -r -f $(LINUXKERNEL_INSTALL_DIR)/fitImage-its-$(YOCTO_MACHINE) -k $(UBOOT_SRC_DIR)/arch/arm/mach-k3/keys -K $(TI_SDK_PATH)/board-support/u-boot-build/$(MKIMAGE_DTB_FILE) $(TI_SDK_PATH)/board-support/built-images/fitImage
 
