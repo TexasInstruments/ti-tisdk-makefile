@@ -3,7 +3,7 @@ arm-benchmarks:
 	@echo =============================
 	@echo    Building ARM Benchmarks
 	@echo =============================
-	$(MAKE) -C $(ARM_BENCHMARKS_SRC_DIR) CC="$(CC)"
+	$(MAKE) -C $(ARM_BENCHMARKS_SRC_DIR) CC="$(CC)" CFLAGS="$(CFLAGS) -std=gnu11"
 
 arm-benchmarks_clean:
 	@echo =============================
