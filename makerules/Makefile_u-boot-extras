@@ -38,7 +38,7 @@ endif
 	mkdir -p $(TI_SDK_PATH)/board-support/u-boot-extras-build/r5
 	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOTEXTRAS_SRC_DIR) ARCH=arm $(UBOOT_MACHINE_R5) O=$(TI_SDK_PATH)/board-support/u-boot-extras-build/r5
 	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOTEXTRAS_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
-		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE)  O=$(TI_SDK_PATH)/board-support/u-boot-extras-build/r5
+		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE)  O=$(TI_SDK_PATH)/board-support/u-boot-extras-build/r5 KBUILD_LDFLAGS="-no-pie"
 
 u-boot-extras-r5_clean:
 
