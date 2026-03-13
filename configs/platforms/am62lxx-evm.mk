@@ -1,5 +1,5 @@
 #platform
-SOC=am62l
+SOC=am62lx
 
 #add platform for scripts
 PLATFORM?=am62lxx-evm

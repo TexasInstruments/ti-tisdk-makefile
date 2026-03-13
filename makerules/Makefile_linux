@@ -15,7 +15,7 @@ linux: linux-dtbs u-boot
 	mkimage -r -f $(LINUXKERNEL_INSTALL_DIR)/fitImage-its-$(YOCTO_MACHINE) -k $(UBOOT_SRC_DIR)/arch/arm/mach-k3/keys -K $(TI_SDK_PATH)/board-support/u-boot-build/$(MKIMAGE_DTB_FILE) $(TI_SDK_PATH)/board-support/built-images/fitImage
 
 	# Rebuild uboot a53 (binman) for FitImage
-ifeq ($(SOC), am62l)
+ifeq ($(SOC), am62lx)
 	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) CC="$(CC)" \
 		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE) BL1=$(UBOOT_AP_TRUSTED_ROM) BL31=$(UBOOT_ATF) TEE=$(UBOOT_TEE) \
 		O=$(TI_SDK_PATH)/board-support/u-boot-build/a53

@@ -6,7 +6,7 @@ atf_build:
 	@echo =======================
 	mkdir -p $(TI_SDK_PATH)/board-support/tfa-build
 	$(MAKE) -j $(MAKE_JOBS) -C $(TFA_SRC_DIR) ARCH=aarch64 CROSS_COMPILE=$(CROSS_COMPILE) BUILD_BASE=$(TI_SDK_PATH)/board-support/tfa-build \
-		PLAT=k3 K3_PM_SYSTEM_SUSPEND=1 TARGET_BOARD=$(SOC) SPD=$(TFA_SPD)
+		PLAT=k3low K3_PM_SYSTEM_SUSPEND=1 TARGET_BOARD=$(SOC) SPD=$(TFA_SPD)
 
 atf_clean:
 	@echo =======================
@@ -16,8 +16,8 @@ atf_clean:
 
 atf_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
-	cp $(TI_SDK_PATH)/board-support/tfa-build/k3/$(SOC)/release/bl31.bin $(TI_SDK_PATH)/board-support/built-images/bl31.bin
+	cp $(TI_SDK_PATH)/board-support/tfa-build/k3low/$(SOC)/release/bl31.bin $(TI_SDK_PATH)/board-support/built-images/bl31.bin
 
 ifeq ($(SOC), am62l)
-	cp $(TI_SDK_PATH)/board-support/tfa-build/k3/$(SOC)/release/bl1.bin $(TI_SDK_PATH)/board-support/built-images/bl1.bin
+	cp $(TI_SDK_PATH)/board-support/tfa-build/k3low/$(SOC)/release/bl1.bin $(TI_SDK_PATH)/board-support/built-images/bl1.bin
 endif
