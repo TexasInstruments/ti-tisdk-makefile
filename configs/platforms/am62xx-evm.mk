@@ -35,8 +35,8 @@ TI_LINUX_FIRMWARE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)
 UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl31.bin
 UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl32.bin
 TI_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/ti-dm/am62xx/ipc_echo_testb_mcu1_0_release_strip.xer5f
-LINUXEXTRASKERNEL_INSTALL_DIR=$(TI_SDK_PATH)/board-support/linux-extras-*
-UBOOTEXTRAS_SRC_DIR=$(TI_SDK_PATH)/board-support/u-boot-extras-jailhouse-*
+LINUXEXTRASKERNEL_INSTALL_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/linux-extras-*)
+UBOOTEXTRAS_SRC_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/u-boot-extras-jailhouse-*)
 
 # Add configs for ti-img-rogue-driver
 PVR_BUILD_DIR=am62_linux
