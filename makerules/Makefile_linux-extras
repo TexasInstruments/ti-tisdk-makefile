@@ -10,6 +10,7 @@ linux-extras: linux-extras-dtbs u-boot-extras
 	
 	# Build FitImage
 	cd $(LINUXEXTRASKERNEL_INSTALL_DIR) ; cp arch/arm64/boot/Image.gz ./linux.bin ; cd ..
+	cp $(LINUXEXTRASKERNEL_INSTALL_DIR)/arch/arm64/boot/dts/ti/*.dtb* $(LINUXEXTRASKERNEL_INSTALL_DIR)/
 	cp $(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)-jailhouse/fitImage-its-$(PLATFORM) $(LINUXEXTRASKERNEL_INSTALL_DIR)
 	mkimage -r -f $(LINUXEXTRASKERNEL_INSTALL_DIR)/fitImage-its-$(PLATFORM) -k $(UBOOTEXTRAS_SRC_DIR)/arch/arm/mach-k3/keys -K $(TI_SDK_PATH)/board-support/u-boot-extras-build/$(MKIMAGE_DTB_FILE) $(TI_SDK_PATH)/board-support/built-images/fitImage
 	
