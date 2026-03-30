@@ -17,9 +17,9 @@ export CROSS_COMPILE_ARMV7=$(K3_R5_LINUX_DEVKIT_PATH)/sysroots/x86_64-arago-linu
 export CC=$(CROSS_COMPILE)gcc --sysroot=$(SDK_PATH_TARGET)
 
 # u-boot machine configs for A53 and R5
-UBOOT_MACHINE=am6254xxl_evm_a53_defconfig
-UBOOT_MACHINE_R5=am6254xxl_evm_r5_defconfig
-MKIMAGE_DTB_FILE=a53/dts/upstream/src/arm64/ti/k3-am6254xxl-sk.dtb
+UBOOT_MACHINE=am6254atl_evm_a53_defconfig
+UBOOT_MACHINE_R5=am6254atl_evm_r5_defconfig
+MKIMAGE_DTB_FILE=a53/dts/upstream/src/arm64/ti/k3-am6254atl-sk.dtb
 
 KERNEL_DEVICETREE_PREFIX=ti/k3-am625|ti/k3-am62x-sk
 
