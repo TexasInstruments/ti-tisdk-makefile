@@ -18,6 +18,6 @@ atf_stage:
 	mkdir -p $(TI_SDK_PATH)/board-support/built-images
 	cp $(TI_SDK_PATH)/board-support/tfa-build/k3low/$(SOC)/release/bl31.bin $(TI_SDK_PATH)/board-support/built-images/bl31.bin
 
-ifeq ($(SOC), am62l)
+ifeq ($(SOC), am62lx)
 	cp $(TI_SDK_PATH)/board-support/tfa-build/k3low/$(SOC)/release/bl1.bin $(TI_SDK_PATH)/board-support/built-images/bl1.bin
 endif
