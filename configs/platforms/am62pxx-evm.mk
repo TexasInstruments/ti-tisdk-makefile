@@ -35,4 +35,4 @@ PVR_BUILD_DIR=am62p_linux
 WINDOW_SYSTEM=lws-generic
 PVR_BUILD=release
 
-MAKE_ALL_TARGETS?= arm-benchmarks cryptodev u-boot linux linux-dtbs ti-img-rogue-driver jailhouse linux-extras linux-extras-dtbs u-boot-extras
+MAKE_ALL_TARGETS?= arm-benchmarks cryptodev u-boot u-boot-snagboot linux linux-dtbs ti-img-rogue-driver jailhouse linux-extras linux-extras-dtbs u-boot-extras

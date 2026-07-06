@@ -26,4 +26,4 @@ UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl31.bin
 UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl32.bin
 TI_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/ti-dm/am62dxx/ipc_echo_testb_mcu1_0_release_strip.xer5f
 
-MAKE_ALL_TARGETS?= cryptodev arm-benchmarks u-boot linux linux-dtbs
+MAKE_ALL_TARGETS?= cryptodev arm-benchmarks u-boot u-boot-snagboot linux linux-dtbs

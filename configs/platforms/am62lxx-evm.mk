@@ -31,4 +31,4 @@ UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl32.bin
 LINUXEXTRASKERNEL_INSTALL_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/linux-extras-*)
 UBOOTEXTRAS_SRC_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/u-boot-extras-jailhouse-*)
 
-MAKE_ALL_TARGETS?= arm-benchmarks atf cryptodev u-boot linux linux-dtbs jailhouse linux-extras linux-extras-dtbs u-boot-extras
+MAKE_ALL_TARGETS?= arm-benchmarks atf cryptodev u-boot u-boot-snagboot linux linux-dtbs jailhouse linux-extras linux-extras-dtbs u-boot-extras
