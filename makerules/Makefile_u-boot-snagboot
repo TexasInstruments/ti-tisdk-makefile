@@ -1,0 +1,85 @@
+# Snagboot-specific U-Boot build
+# Builds bootloader images with DFU boot and fastboot support required by
+# snagrecover and snagfactory. Images are staged to built-images/snagboot/.
+#
+# Supported platforms: am62xx-evm, am62xx-lp-evm, am62axx-evm, am62dxx-evm,
+#                      am62pxx-evm, am62xxsip-evm, am64xx-evm, am62lxx-evm
+#
+# Usage:
+#   make u-boot-snagboot_clean
+#   make u-boot-snagboot
+#   make u-boot-snagboot_stage
+
+UBOOT_SNAGBOOT_BUILD_A53=$(TI_SDK_PATH)/board-support/u-boot-build/snagboot/a53
+UBOOT_SNAGBOOT_BUILD_R5=$(TI_SDK_PATH)/board-support/u-boot-build/snagboot/r5
+UBOOT_SNAGBOOT_IMAGES=$(TI_SDK_PATH)/board-support/built-images/snagboot
+
+# am64 only needs the snagfactory fragment; all other SOCs also get the usbdfu fragments
+ifeq ($(SOC), am64)
+UBOOT_MACHINE_SNAGBOOT=$(UBOOT_MACHINE) am6x_a53_snagfactory.config
+UBOOT_MACHINE_R5_SNAGBOOT=$(UBOOT_MACHINE_R5)
+else
+UBOOT_MACHINE_SNAGBOOT=$(UBOOT_MACHINE) am62x_a53_usbdfu.config am6x_a53_snagfactory.config
+ifneq ($(UBOOT_MACHINE_R5),)
+UBOOT_MACHINE_R5_SNAGBOOT=$(UBOOT_MACHINE_R5) am62x_r5_usbdfu.config
+endif
+endif
+
+u-boot-snagboot: $(if $(filter am62lx,$(SOC)), u-boot-snagboot-a53, u-boot-snagboot-r5 u-boot-snagboot-a53)
+
+u-boot-snagboot_clean: $(if $(filter am62lx,$(SOC)), u-boot-snagboot-a53_clean, u-boot-snagboot-r5_clean u-boot-snagboot-a53_clean)
+
+u-boot-snagboot-a53:
+	@echo ===================================
+	@echo    Building U-boot snagboot for A53
+	@echo ===================================
+	mkdir -p $(UBOOT_SNAGBOOT_BUILD_A53)
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm $(UBOOT_MACHINE_SNAGBOOT) O=$(UBOOT_SNAGBOOT_BUILD_A53)
+ifeq ($(SOC), am62lx)
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) CC="$(CC)" \
+		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE) BL1=$(UBOOT_AP_TRUSTED_ROM) BL31=$(UBOOT_ATF) TEE=$(UBOOT_TEE) \
+		O=$(UBOOT_SNAGBOOT_BUILD_A53)
+else
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) CC="$(CC)" \
+		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE) BL31=$(UBOOT_ATF) TEE=$(UBOOT_TEE) TI_DM=$(TI_DM) \
+		O=$(UBOOT_SNAGBOOT_BUILD_A53)
+endif
+
+u-boot-snagboot-a53_clean:
+	@echo ===================================
+	@echo    Cleaning U-boot snagboot for A53
+	@echo ===================================
+	$(MAKE) -C $(UBOOT_SRC_DIR) CROSS_COMPILE=$(CROSS_COMPILE) O=$(UBOOT_SNAGBOOT_BUILD_A53) distclean
+
+u-boot-snagboot-r5:
+ifeq ($(SOC), am62lx)
+	$(warning Target u-boot-snagboot-r5 isn't applicable for AM62L)
+	$(error Skipping with a warning message)
+endif
+	@echo ===================================
+	@echo    Building U-boot snagboot for R5
+	@echo ===================================
+	mkdir -p $(UBOOT_SNAGBOOT_BUILD_R5)
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm $(UBOOT_MACHINE_R5_SNAGBOOT) O=$(UBOOT_SNAGBOOT_BUILD_R5)
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) \
+		BINMAN_INDIRS=$(TI_LINUX_FIRMWARE) O=$(UBOOT_SNAGBOOT_BUILD_R5) KBUILD_LDFLAGS="-no-pie"
+
+u-boot-snagboot-r5_clean:
+ifeq ($(SOC), am62lx)
+	$(warning Target u-boot-snagboot-r5_clean isn't applicable for AM62L)
+	$(error Skipping with a warning message)
+endif
+	@echo ===================================
+	@echo    Cleaning U-boot snagboot for R5
+	@echo ===================================
+	$(MAKE) -C $(UBOOT_SRC_DIR) CROSS_COMPILE=$(CROSS_COMPILE_ARMV7) O=$(UBOOT_SNAGBOOT_BUILD_R5) distclean
+
+u-boot-snagboot_stage:
+	mkdir -p $(UBOOT_SNAGBOOT_IMAGES)
+	cp $(UBOOT_SNAGBOOT_BUILD_A53)/tispl.bin $(UBOOT_SNAGBOOT_IMAGES)/tispl.bin
+	cp $(UBOOT_SNAGBOOT_BUILD_A53)/u-boot.img $(UBOOT_SNAGBOOT_IMAGES)/u-boot.img
+ifeq ($(SOC), am62lx)
+	cp $(UBOOT_SNAGBOOT_BUILD_A53)/tiboot3*.bin $(UBOOT_SNAGBOOT_IMAGES)/
+else
+	cp $(UBOOT_SNAGBOOT_BUILD_R5)/tiboot3*.bin $(UBOOT_SNAGBOOT_IMAGES)/
+endif
