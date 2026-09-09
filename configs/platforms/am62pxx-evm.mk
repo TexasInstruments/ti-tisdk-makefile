@@ -26,7 +26,15 @@ KERNEL_DEVICETREE_PREFIX=ti/k3-am62p5|ti/k3-am62x-sk|ti/k3-v3link
 TI_LINUX_FIRMWARE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)
 UBOOT_ATF=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl31.bin
 UBOOT_TEE=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/bl32.bin
+
+DISPLAY_CLUSTER?=0
+
+ifeq ($(DISPLAY_CLUSTER), 1)
+TI_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)-display-cluster/ti-dm/dss_display_share.wkup-r5f0_0.release.strip.out
+DISPLAY_CLUSTER_FRAGMENT=am62x_evm_prune_splashscreen.config
+else
 TI_DM=$(TI_SDK_PATH)/board-support/prebuilt-images/$(PLATFORM)/ti-dm/am62pxx/ipc_echo_testb_mcu1_0_release_strip.xer5f
+endif
 LINUXEXTRASKERNEL_INSTALL_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/linux-extras-*)
 UBOOTEXTRAS_SRC_DIR:=$(shell ls -d $(TI_SDK_PATH)/board-support/u-boot-extras-jailhouse-*)
 
