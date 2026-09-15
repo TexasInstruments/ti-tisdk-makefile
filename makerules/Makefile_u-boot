@@ -7,7 +7,7 @@ u-boot-a53:
 	@echo    Building U-boot for A53
 	@echo ===================================
 	mkdir -p $(TI_SDK_PATH)/board-support/u-boot-build/a53
-	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm $(UBOOT_MACHINE) O=$(TI_SDK_PATH)/board-support/u-boot-build/a53
+	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm $(UBOOT_MACHINE) $(DISPLAY_CLUSTER_FRAGMENT) O=$(TI_SDK_PATH)/board-support/u-boot-build/a53
 
 ifeq ($(SOC), am62lx)
 	$(MAKE) -j $(MAKE_JOBS) -C $(UBOOT_SRC_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) CC="$(CC)" \
